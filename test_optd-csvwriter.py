@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
 import os, json
+import pytest
 from opentraveldata import CSVWriter, OpenTravelData
 
-if __name__ == '__main__':
+def test_csvwriter_writing():
     """
     >>> a = 2
     """
@@ -14,7 +15,6 @@ if __name__ == '__main__':
     csvwriter.write (array)
     csvwriter.close()
 
-    os.path.isfile (csv_test_filepath)
-
-    
+    doesFileExist = os.path.isfile (csv_test_filepath)
+    assert doesFileExist, f"Error in writing {csv_test_filepath}"
 
