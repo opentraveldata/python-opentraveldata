@@ -1,0 +1,62 @@
+[project]
+name = "opentraveldata"
+version = "0.0.1"
+description = "Simple Python wrapper for OpenTravelata (OPTD)"
+authors = [
+	"Denis Arnaud <denis.arnaud_fedora@m4x.org>"
+]
+license = "MIT"
+readme = "README.md"
+python = "^3.8"
+homepage = "https://github.com/opentraveldata/python-opentraveldata"
+repository = "https://github.com/opentraveldata/python-opentraveldata"
+documentation = "https://github.com/opentraveldata/python-opentraveldata"
+
+keywords = ["packaging", "package", "dependency", "pyproject.toml",
+         "api", "python", "optd", "opentraveldata"]
+
+classifiers = [
+    "Topic :: Software Development",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+# Requirements
+[dependencies]
+datetime = "*"
+
+[dev-dependencies]
+
+
+[build-system]
+requires = [
+    "setuptools >= 35.0.2",
+    "setuptools_scm >= 2.0.0, <3"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 80
+target_version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
+

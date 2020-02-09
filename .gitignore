@@ -1,0 +1,4 @@
+/dist/
+/build/
+/opentraveldata.egg-info/
+/.tox/

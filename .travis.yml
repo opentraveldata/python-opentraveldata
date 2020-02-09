@@ -1,0 +1,21 @@
+language: python
+
+matrix:
+  include:
+    - python: 3.8
+      env: TOXENV=py38
+
+install: pip install tox
+
+script: tox
+
+deploy:
+  provider: pypi
+  user: "__token__"
+  password: 
+    secure: UBK/pUBzAZZpyVXQrj3PtfbEl+cdMtwvIu26iWEo5uwfKuUZKo8CfZfVl6FdjszIzHcscaBDMN25MrzYIypvwg0ufd7ZJFcLozFdy3WuSuS5y8RjNrkmdnMWHuRmgy7YgGDrv+/hbgkXDaGmL2UwDBHxViF7Jt5Jv0gB5g4mavP3T8+n85hVn6jXupK5F2+hjBrpcxgyqDHo2CurnXzkO5szuslG7mJaIgatf7yOUmQl3z0uRSks5VRIGurkO1iQEM0aH3M/8XkOnwql4y+v8WXwzH/CcTSRKLC24RjsbfBikJmybm+HckX6RHDs5Ih49+tMx4S5xZVsSTe3IdYrMAxQ+VoCK8xDu5bD3DXgu1u7wNCMoM1wqMA8ESMVUZq+bqUNtJCTtUqMDYmRSVsiWtLHYIfz10N3BxqL1AlStgZ4OmU2uuuZ+/TRnj0nrnAX/BCgBN1JzHYMBx02CtZnf58SK/AVIHi8SShhzT2aeogexThipKS2LufmMIUkYuLCpv24rPmly4l/QTzkBh2oeDvIFq85/ALL3kMVCe/DJOCEKnLKDzsspzFuS2LyvvPnycCMikWWq2zOe7FLjRp8u3nLdY36+XRAieIyfntCwZvlWW2ZdyTKKwdjG0b7lcPBkGbcEZOLi8wYyQ8AvGFGQSua/sVbBcved+p8mf4OKko=
+  distributions: "sdist bdist_wheel"
+  skip_existing: true
+  on:
+    tags: true
+

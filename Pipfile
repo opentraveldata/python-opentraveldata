@@ -1,0 +1,20 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+nbconvert = "*"
+ipython = "*"
+jupyterlab = "*"
+awsume = "*" 
+awscli = "*"
+tox = "*"
+twine = "*"
+pytest = "*"
+
+[packages]
+datetime = "*"
+
+[requires]
+python_version = "3.8"
