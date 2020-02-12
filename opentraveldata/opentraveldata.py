@@ -8,19 +8,33 @@ import getopt, os, sys, re, csv, datetime, shutil, urllib.request
 optd_url_base = 'https://github.com/opentraveldata/opentraveldata/blob/master'
 
 class Error (Exception):
-   """Base class for other OpenTravelData (OPTD) exceptions"""
+   """
+   Base class for other OpenTravelData (OPTD) exceptions
+   """
    pass
 
 class OPTDLocalFileError (Error):
-   """Raised when there is an issue with the local OenTravelData (OPTD) file"""
+   """
+   Raised when there is an issue with the local OenTravelData (OPTD) file
+   """
    pass
 
 class OPTDDownloadFileError (Error):
-   """Raised when there is an issue wile downloading OenTravelData (OPTD) file"""
+   """
+   Raised when there is an issue wile downloading OenTravelData (OPTD) file
+   """
    pass    
 
 class OPTDIATACodeError (Error):
-   """Raised when there is the IATA code is not known from OenTravelData (OPTD)"""
+   """
+   Raised when there is the IATA code is not known from OenTravelData (OPTD)
+   """
+   pass
+
+class OPTDLocationTypeError (Error):
+   """
+   Raised when there is an issue with the location type
+   """
    pass
 
 class OpenTravelData():
@@ -56,10 +70,10 @@ class OpenTravelData():
 
     >>> myOPTD.extractPORSubsetFromOPTD()
 
-    >>> myOPTD.getAirportList ('IEV')
+    >>> myOPTD.getServingPORList ('IEV')
     ['IEV']
 
-    >>> myOPTD.getAirportList ('BAK')
+    >>> myOPTD.getServingPORList ('BAK')
     ['GYD', 'ZXT']
 
     """
@@ -103,14 +117,40 @@ class OpenTravelData():
     def localFilepath (self):
         return self.local_filepath
 
+    def doesLocalFileExist (self):
+        does_file_exist = os.path.isfile (self.local_filepath)
+        return does_file_exist
+
     def size (self):
-        return os.path.getsize (self.local_filepath)
+        file_size = os.path.getsize (self.local_filepath)
+        return file_size
+
+    def deleteLocalFile (self):
+        does_file_exist = self.doesLocalFileExist()
+        if does_file_exist:
+            if verbose:
+                print ("[Opentraveldata::deleteLocalFile] Deleting " \
+                       f"{self.local_filepath} - Size: {file_size}...")
+            os.remove (self.local_filepath)
+
+            if verbose:
+                print ("[Opentraveldata::deleteLocalFile] " \
+                       f"{self.local_filepath} has been deleted")
+                
+        # Sanity check
+        does_file_exist = self.doesLocalFileExist()
+        if does_file_exist:
+            err_msg = "[OpenTravelData::deleteLocalFile] The " \
+                f"{self.local_filepath} file cannot be deleted"
+            raise OPTDLocalFileError (err_msg)
+        #
+        return
 
     def downloadFile (self):
         """Download a file from the Web."""
         if self.verbose:
-            print (f"[OpenTravelata::downloadFile] Downloading " \
-                   "'{self.local_filepath}' from {self.file_url}...")
+            print (f"[OpenTravelData::downloadFile] Downloading " \
+                   "{self.local_filepath} from {self.file_url}...")
 
         try:
             with urllib.request.urlopen (self.file_url) \
@@ -121,35 +161,41 @@ class OpenTravelData():
                 f"{self.file_url} as {self.local_filepath}"
             raise OPTDDownloadFileError (err_msg)
             
-            if self.verbose:
-                print ("[Opentraveldata::downloadFile] ... done")
+        if self.verbose:
+            file_size = self.size()
+            print ("[Opentraveldata::downloadFile] ... done. " \
+                   f"{self.local_filepath} - Size: {file_size}")
+        
         return
 
     def downloadFileIfNeeded (self):
         """Download a file from the Web, only if newer on that latter."""
 
         # Check whether the OPTD data file has already been downloaded
-        file_exists = os.path.isfile (self.local_filepath)
-        if file_exists:
-            try:
-                if os.stat (self.local_filepath).st_size > 0:
-                    mtime = os.path.getmtime (self.local_filepath)
-                    file_time = datetime.datetime.fromtimestamp (mtime)
-                    if self.verbose:
-                        print ("[Opentraveldata::downloadFileIfNeeded] " \
-                               f"Time-stamp of '{self.local_filepath}': " \
-                               f"{file_time}. If that file is too old, " \
-                               "you can delete it, and re-execute that task")
-                else:
-                    self.downloadFile()
-            except:
-                self.downloadFile()
-        else:
+        does_file_exist = self.doesLocalFileExist()
+        if not does_file_exist:
             self.downloadFile()
+            
+        file_size = self.size()
+        mtime = os.path.getmtime (self.local_filepath)
+        file_time = datetime.datetime.fromtimestamp (mtime)
+        if self.verbose:
+            print ("[Opentraveldata::downloadFileIfNeeded] " \
+                   f"{self.local_filepath} - Size: {file_size} - Time-stamp: " \
+                   f"{file_time}. If that file is too old, " \
+                   "you can delete it, e.g. by calling the deleteLocalFile() " \
+                   "method and call again this method (downloadFileIfNeeded())")
+                
+        #
         return
 
     def displayFileHead (self, lines = 10):
-        """Display the first 10 lines of the given file."""
+        """
+        Display the first 10 lines of the given file.
+        """
+
+        # Download the OPTD data file if needed
+        self.downloadFileIfNeeded()        
 
         #
         print (f"Header of the '{self.local_filepath}' file")
@@ -163,8 +209,13 @@ class OpenTravelData():
         return
 
     def extractFileHeader (self):
-        """Extract the header of the given file."""
+        """
+        Extract the header of the given file.
+        """
 
+        # Download the OPTD data file if needed
+        self.downloadFileIfNeeded()        
+        
         #
         header_line = ''
         with open (self.local_filepath) as tmpfile:
@@ -178,8 +229,16 @@ class OpenTravelData():
         Extract a few details from the OpenTravelData (OPTD)
         POR (points of reference)
         """
-    
-        self.por_dict = dict()
+
+        # If the dictionary has already been initialized, just move on,
+        # no need to rer-initialize it
+        if not self.por_dict:
+            self.por_dict = dict()
+        else:
+            return
+
+        # Download the OPTD data file if needed
+        self.downloadFileIfNeeded()        
 
         # OPTD-maintained list of POR
         with open (self.local_filepath, newline='') as csvfile:
@@ -236,8 +295,40 @@ class OpenTravelData():
         #
         return
 
-    def getAirportList (self, por_code = 'FRA',
-                        only_when_city_code_differs = True):
+    def isAirport (self, loc_type = None):
+        """
+        That method states whether the lcation type corresponds
+        to an airport
+        """
+        is_airport = re.search ("A", loc_type)
+        return is_airport
+    
+    def isOffline (self, loc_type = None):
+        """
+        That method states whether the lcation type corresponds
+        to an offline point
+        """
+        is_offpoint = re.search ("O", loc_type)
+        return is_offpoint
+    
+    def isTransportRelated (self, loc_type = None):
+        """
+        That method states whether the lcation type corresponds
+        to a serving POR wrt travel or transport
+        """
+        is_tvl = self.isAirport (loc_type) or self.isOffline (loc_type)
+        return is_tvl
+    
+    def isCity (self, loc_type = None):
+        """
+        That method states whether the lcation type corresponds
+        to a city
+        """
+        is_city = re.search ("C", loc_type) or re.search ("O", loc_type)
+        return is_city
+    
+    def getServingPORList (self, por_code = 'FRA',
+                           only_when_city_code_differs = True):
         """
         Derive the list of travel-/transport-related POR (point of reference)
         IATA code for a given city IATA code.
@@ -247,10 +338,16 @@ class OpenTravelData():
         differs from the IATA codes of those serving POR.
         For instance:
         - When that parameter is set to True,
-          getAirportList('IEV') will return ['IEV'] only
+          getServingPORList('IEV') will return ['IEV'] only
         - When that parameter is set to True,
-          getAirportList('IEV') will return ['IEV', 'KBP']
+          getServingPORList('IEV') will return ['IEV', 'KBP']
         """
+ 
+        # If the dictionary is still empty, initialize it
+        if not self.por_dict:
+            self.extractPORSubsetFromOPTD()
+
+        # Initialize the return structure (list)
         apt_list = []
 
         # Retrieve the OPTD POR corresponding to the given POR IATA code
