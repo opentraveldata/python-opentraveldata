@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='opentraveldata',
-    version='0.0.4',
+    version='0.0.5',
     author='Denis Arnaud',
     author_email='denis.arnaud_fedora@m4x.org',
     description=('''Simple Python wrapper for OpenTravelata (OPTD)'''),
