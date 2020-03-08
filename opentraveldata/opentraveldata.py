@@ -624,7 +624,9 @@ class OpenTravelData():
 
         # Initialize the return structure (list)
         original_dict = {'iata_code': por_code, 'location_type': None,
-                         'geoname_id': None, 'envelope_id': None}
+                         'geoname_id': None, 'envelope_id': None, 'name': None,
+                         'country_code': None, 'country_name': None,
+                         'adm1_code': None, 'adm1_name_utf': None}
         tvl_list = []
         srv_dict = {'original': original_dict, 'tvl_list': tvl_list}
 
@@ -644,10 +646,21 @@ class OpenTravelData():
                 geo_id = optd_por_rec['geoname_id']
                 geo_id = int (geo_id)
                 env_id = optd_por_rec['envelope_id']
+                por_name = optd_por_rec['name']
+                ctry_code = optd_por_rec['country_code']
+                ctry_name = optd_por_rec['country_name']
+                adm1_code = optd_por_rec['adm1_code']
+                adm1_name_utf = optd_por_rec['adm1_name_utf']
+                
                 tvl_sht_rec = {'iata_code': por_code,
                                'location_type': optd_loc_type,
                                'geoname_id': geo_id,
-                               'envelope_id': env_id}
+                               'envelope_id': env_id,
+                               'name': por_name,
+                               'country_code': ctry_code,
+                               'country_name': ctry_name,
+                               'adm1_code': adm1_code,
+                               'adm1_name_utf': adm1_name_utf}
                 # Add to the list only if not already there
                 if not self.isPORRecInTvlList (tvl_list, tvl_sht_rec):
                     tvl_list.append (tvl_sht_rec)
@@ -686,6 +699,11 @@ class OpenTravelData():
                         geo_id = tvl_por_rec['geoname_id']
                         geo_id = int (geo_id)
                         env_id = optd_por_rec['envelope_id']
+                        por_name = optd_por_rec['name']
+                        ctry_code = optd_por_rec['country_code']
+                        ctry_name = optd_por_rec['country_name']
+                        adm1_code = optd_por_rec['adm1_code']
+                        adm1_name_utf = optd_por_rec['adm1_name_utf']
 
                         # Insert into the target list (tvl_list)
                         # only if not already present there
@@ -694,7 +712,12 @@ class OpenTravelData():
                         tvl_sht_rec = {'iata_code': tvl_por_code,
                                        'location_type': tvl_loc_type,
                                        'geoname_id': geo_id,
-                                       'envelope_id': env_id}
+                                       'envelope_id': env_id,
+                                       'name': por_name,
+                                       'country_code': ctry_code,
+                                       'country_name': ctry_name,
+                                       'adm1_code': adm1_code,
+                                       'adm1_name_utf': adm1_name_utf}
 
                         # Add to the list only if not already there
                         if not self.isPORRecInTvlList (tvl_list, tvl_sht_rec):
