@@ -68,8 +68,10 @@ class OpenTravelData():
 
     >>> myOPTD = opentraveldata.OpenTravelData()
 
-    >>> str (myOPTD)
-    'OpenTravelData - Local file: /tmp/opentraveldata/optd_por_public.csv'
+    >>> myOPTD
+    OpenTravelData:
+	Local IATA/ICAO POR file: /tmp/opentraveldata/optd_por_public_all.csv
+	Local UN/LOCODE POR file: /tmp/opentraveldata/optd_por_unlc.csv
 
     >>> myOPTD.localIATAPORFilepath()
     '/tmp/opentraveldata/optd_por_public_all.csv'
@@ -86,19 +88,19 @@ class OpenTravelData():
     >>> myOPTD.downloadFilesIfNeeded()
 
     >>> myOPTD.fileSizes()
-    (43544809, 4862647)
+    (43897966, 4863565)
 
     >>> myOPTD.extractIATAPORFileHeader()
-    'iata_code^icao_code^faa_code^is_geonames^geoname_id^envelope_id^name^asciiname^latitude^longitude^fclass^fcode^page_rank^date_from^date_until^comment^country_code^cc2^country_name^continent_name^adm1_code^adm1_name_utf^adm1_name_ascii^adm2_code^adm2_name_utf^adm2_name_ascii^adm3_code^adm4_code^population^elevation^gtopo30^timezone^gmt_offset^dst_offset^raw_offset^moddate^city_code_list^city_name_list^city_detail_list^tvl_por_list^iso31662^location_type^wiki_link^alt_name_section^wac^wac_name^ccy_code^unlc_list^uic_list'
+    'iata_code^icao_code^faa_code^is_geonames^geoname_id^envelope_id^name^asciiname^latitude^longitude^fclass^fcode^page_rank^date_from^date_until^comment^country_code^cc2^country_name^continent_name^adm1_code^adm1_name_utf^adm1_name_ascii^adm2_code^adm2_name_utf^adm2_name_ascii^adm3_code^adm4_code^population^elevation^gtopo30^timezone^gmt_offset^dst_offset^raw_offset^moddate^city_code_list^city_name_list^city_detail_list^tvl_por_list^iso31662^location_type^wiki_link^alt_name_section^wac^wac_name^ccy_code^unlc_list^uic_list^geoname_lat^geoname_lon'
 
     >>> myOPTD.extractUNLCPORFileHeader()
     'unlocode^latitude^longitude^geonames_id^iso31662_code^iso31662_name^feat_class^feat_code'
 
     >>> myOPTD.displayFilesHead (3)
     Header of the '/tmp/opentraveldata/optd_por_public_all.csv' file
-    iata_code,icao_code,faa_code,is_geonames,geoname_id,envelope_id,name,asciiname,latitude,longitude,fclass,fcode,page_rank,date_from,date_until,comment,country_code,cc2,country_name,continent_name,adm1_code,adm1_name_utf,adm1_name_ascii,adm2_code,adm2_name_utf,adm2_name_ascii,adm3_code,adm4_code,population,elevation,gtopo30,timezone,gmt_offset,dst_offset,raw_offset,moddate,city_code_list,city_name_list,city_detail_list,tvl_por_list,iso31662,location_type,wiki_link,alt_name_section,wac,wac_name,ccy_code,unlc_list,uic_list
-    ,,,Y,11085,,Bīsheh Kolā,Bisheh Kola,36.18604,53.16789,P,PPL,,,,,IR,,Iran,Asia,35,Māzandarān,Mazandaran,,,,,,0,,1168,Asia/Tehran,3.5,4.5,3.5,2012-01-16,,,,,,C,,fa|بيشه كلا|=fa|Bīsheh Kolā|,632,Iran,IRR,IRBSM|,
-    ,,,Y,14645,,Kūch Be Masjed-e Soleymān,Kuch Be Masjed-e Soleyman,31.56667,49.53333,P,PPL,,,,,IR,,Iran,Asia,15,Khuzestan,Khuzestan,,,,,,0,,424,Asia/Tehran,3.5,4.5,3.5,2012-01-16,,,,,,C,,fa|Kūch Be Masjed-e Soleymān|,632,Iran,IRR,IRQMJ|,
+    iata_code,icao_code,faa_code,is_geonames,geoname_id,envelope_id,name,asciiname,latitude,longitude,fclass,fcode,page_rank,date_from,date_until,comment,country_code,cc2,country_name,continent_name,adm1_code,adm1_name_utf,adm1_name_ascii,adm2_code,adm2_name_utf,adm2_name_ascii,adm3_code,adm4_code,population,elevation,gtopo30,timezone,gmt_offset,dst_offset,raw_offset,moddate,city_code_list,city_name_list,city_detail_list,tvl_por_list,iso31662,location_type,wiki_link,alt_name_section,wac,wac_name,ccy_code,unlc_list,uic_list,geoname_lat,geoname_lon
+    ,,,Y,11085,,Bīsheh Kolā,Bisheh Kola,36.18604,53.16789,P,PPL,,,,,IR,,Iran,Asia,35,Māzandarān,Mazandaran,,,,,,0,,1168,Asia/Tehran,3.5,4.5,3.5,2012-01-16,,,,,,C,,fa|بيشه كلا|=fa|Bīsheh Kolā|,632,Iran,IRR,IRBSM|,,,
+    ,,,Y,14645,,Kūch Be Masjed-e Soleymān,Kuch Be Masjed-e Soleyman,31.56667,49.53333,P,PPL,,,,,IR,,Iran,Asia,15,Khuzestan,Khuzestan,,,,,,0,,424,Asia/Tehran,3.5,4.5,3.5,2012-01-16,,,,,,C,,fa|Kūch Be Masjed-e Soleymān|,632,Iran,IRR,IRQMJ|,,,
     Header of the '/tmp/opentraveldata/optd_por_unlc.csv' file
     unlocode,latitude,longitude,geonames_id,iso31662_code,iso31662_name,feat_class,feat_code
     ADALV,42.50779,1.52109,3041563,,,P,PPLC
@@ -107,10 +109,40 @@ class OpenTravelData():
     >>> myOPTD.extractPORSubsetFromOPTD()
 
     >>> myOPTD.getServingPORList ('IEV')
-    ['IEV']
+    {'original': {'iata_code': 'IEV',
+     'location_type': None,
+     'geoname_id': None,
+     'envelope_id': None},
+    'tvl_list': [{'iata_code': 'IEV',
+     'location_type': 'A',
+     'geoname_id': 6300960,
+     'envelope_id': ''},
+    {'iata_code': 'KBP',
+     'location_type': 'A',
+     'geoname_id': 6300952,
+     'envelope_id': ''},
+    {'iata_code': 'QOF',
+     'location_type': 'B',
+     'geoname_id': 8260936,
+     'envelope_id': ''},
+    {'iata_code': 'QOH',
+     'location_type': 'B',
+     'geoname_id': 0,
+     'envelope_id': ''}]}
 
     >>> myOPTD.getServingPORList ('BAK')
-    ['GYD', 'ZXT']
+    {'original': {'iata_code': 'BAK',
+     'location_type': None,
+     'geoname_id': None,
+     'envelope_id': None},
+    'tvl_list': [{'iata_code': 'GYD',
+     'location_type': 'A',
+     'geoname_id': 6300924,
+     'envelope_id': ''},
+    {'iata_code': 'ZXT',
+     'location_type': 'A',
+     'geoname_id': 8521639,
+     'envelope_id': ''}]}
 
     """
     verbose = False
@@ -161,9 +193,9 @@ class OpenTravelData():
             raise OPTDLocalFileError (err_msg)            
         
     def __repr__ (self):
-        repr_msg = "OpenTravelData - " \
-            f"Local IATA POR file: {self.local_iata_por_filepath}" \
-            f"Local UN/LOCODE POR file: {self.local_unlc_por_filepath}"
+        repr_msg = "OpenTravelData:\n" \
+            f"\tLocal IATA/ICAO POR file: {self.local_iata_por_filepath}\n" \
+            f"\tLocal UN/LOCODE POR file: {self.local_unlc_por_filepath}"
         return repr_msg
     
     def iataPORFileURL (self):
@@ -591,7 +623,10 @@ class OpenTravelData():
             self.extractPORSubsetFromOPTD()
 
         # Initialize the return structure (list)
+        original_dict = {'iata_code': por_code, 'location_type': None,
+                         'geoname_id': None, 'envelope_id': None}
         tvl_list = []
+        srv_dict = {'original': original_dict, 'tvl_list': tvl_list}
 
         # Retrieve the OPTD POR corresponding to the given POR IATA code
         if not por_code in self.iata_por_dict:
@@ -666,5 +701,5 @@ class OpenTravelData():
                             tvl_list.append (tvl_sht_rec)
 
         #
-        return tvl_list
+        return srv_dict
 

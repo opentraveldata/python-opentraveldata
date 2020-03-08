@@ -113,9 +113,9 @@ user@laptop$ PYPIURL="https://test.pypi.org"
 user@laptop$ pipenv run twine upload -u __token__ --repository-url ${PYPIURL}/legacy/ dist/*
 Uploading distributions to https://test.pypi.org/legacy/
 Uploading opentraveldata-0.0.1-py3-none-any.whl
-100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 15.7k/15.7k [00:02<00:00, 7.43kB/s]
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 15.7k/15.7k [00:02<00:00, 7.43kB/s]
 Uploading opentraveldata-0.0.1.tar.gz
-100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 16.3k/16.3k [00:01<00:00, 15.1kB/s]
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 16.3k/16.3k [00:01<00:00, 15.1kB/s]
 
 View at: https://test.pypi.org/project/opentraveldata/0.0.1/
 ```
@@ -129,17 +129,53 @@ Password for '__token__' in '${PYPIURL}/':
 user@laptop$ pipenv run twine upload -u __token__ --non-interactive dist/*
 Uploading distributions to https://pypi.org/
 Uploading opentraveldata-0.0.1-py3-none-any.whl
-100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 18.2k/18.2k [00:03<00:00, 5.99kB/s]
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 18.2k/18.2k [00:03<00:00, 5.99kB/s]
 Uploading opentraveldata-0.0.1.tar.gz
-100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 19.0k/19.0k [00:01<00:00, 10.9kB/s]
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 19.0k/19.0k [00:01<00:00, 10.9kB/s]
 
 View at: https://pypi.org/project/opentraveldata/0.0.1/
 ```
 
 # Test the Python module
+
+## Pytest
 * Launch the test:
 ```bash
-$ pipenv run python test_optd.py 
+$ pipenv run pytest test_optd-csvwriter.py
+===================================== test session starts ============================================
+platform darwin -- Python 3.8.2, pytest-5.3.5, py-1.8.1, pluggy-0.13.1
+rootdir: ~/dev/geo/python-opentraveldata
+collected 1 item                                                                                                                                                                                                                             
+
+test_optd-csvwriter.py .                                                                        [100%]
+
+===================================== 1 passed in 0.04s ==============================================
 ```
 
+## Tox
+
+```bash
+$ $ pipenv run tox
+.package recreate: ~/dev/geo/python-opentraveldata/.tox/.package
+.package installdeps: setuptools >= 35.0.2, setuptools_scm >= 2.0.0, <3
+py38 create: ~/dev/geo/python-opentraveldata/.tox/py38
+py38 installdeps: pytest
+py38 inst: ~/dev/geo/python-opentraveldata/.tox/.tmp/package/1/opentraveldata-0.0.5.tar.gz
+py38 installed: attrs==19.3.0,certifi==2019.11.28,chardet==3.0.4,idna==2.9,more-itertools==8.2.0,opentraveldata==0.0.5,packaging==20.3,pluggy==0.13.1,py==1.8.1,pyparsing==2.4.6,pytest==5.3.5,python-dateutil==2.8.1,pytz==2019.3,requests==2.23.0,six==1.14.0,urllib3==1.25.8,wcwidth==0.1.8
+py38 run-test-pre: PYTHONHASHSEED='3773488260'
+py38 run-test: commands[0] | pytest
+==================================================== test session starts ==========================================================
+platform darwin -- Python 3.8.2, pytest-5.3.5, py-1.8.1, pluggy-0.13.1
+cachedir: .tox/py38/.pytest_cache
+rootdir: ~/dev/geo/python-opentraveldata
+collected 1 item                                                                                                                                                                                                                             
+
+test_optd-csvwriter.py .                                                                                                     [100%]
+
+===================================================== 1 passed in 0.06s ===========================================================
+________________________________________________________ summary __________________________________________________________________
+  py38: commands succeeded
+  congratulations :)
+
+```
 
