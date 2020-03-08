@@ -623,105 +623,133 @@ class OpenTravelData():
             self.extractPORSubsetFromOPTD()
 
         # Initialize the return structure (list)
-        original_dict = {'iata_code': por_code, 'location_type': None,
-                         'geoname_id': None, 'envelope_id': None, 'name': None,
-                         'country_code': None, 'country_name': None,
-                         'adm1_code': None, 'adm1_name_utf': None}
+        original_por_rec = {'iata_code': por_code, 'location_type': None,
+                            'geoname_id': None, 'envelope_id': None,
+                            'name': None,
+                            'country_code': None, 'country_name': None,
+                            'adm1_code': None, 'adm1_name_utf': None}
         tvl_list = []
-        srv_dict = {'original': original_dict, 'tvl_list': tvl_list}
+        srv_dict = {'original': original_por_rec, 'tvl_list': tvl_list}
 
         # Retrieve the OPTD POR corresponding to the given POR IATA code
         if not por_code in self.iata_por_dict:
-            err_msg = f"[OpenTravelData::getAirportList] The {por_code} " \
-                "IATA code does not seem to be valid in OPTD"
-            raise OPTDIATACodeError (err_msg)
+           err_msg = f"[OpenTravelData::getAirportList] The {por_code} " \
+              "IATA code does not seem to be valid in OPTD"
+           raise OPTDIATACodeError (err_msg)
 
         optd_por_rec_dict = self.iata_por_dict[por_code]
+        have_city_details_been_set = False
         for optd_loc_type, optd_por_rec in optd_por_rec_dict.items():
-            # Retrieve the details of the POR. If it is transport-related,
-            # add it to the target list (tvl_list), if not already there.
-            is_transport_related = self.isTransportRelated (optd_loc_type)
-            if is_transport_related:
-                # Retrieve the Geonames ID and the envelope ID
-                geo_id = optd_por_rec['geoname_id']
-                geo_id = int (geo_id)
-                env_id = optd_por_rec['envelope_id']
-                por_name = optd_por_rec['name']
-                ctry_code = optd_por_rec['country_code']
-                ctry_name = optd_por_rec['country_name']
-                adm1_code = optd_por_rec['adm1_code']
-                adm1_name_utf = optd_por_rec['adm1_name_utf']
-                
-                tvl_sht_rec = {'iata_code': por_code,
-                               'location_type': optd_loc_type,
-                               'geoname_id': geo_id,
-                               'envelope_id': env_id,
-                               'name': por_name,
-                               'country_code': ctry_code,
-                               'country_name': ctry_name,
-                               'adm1_code': adm1_code,
-                               'adm1_name_utf': adm1_name_utf}
-                # Add to the list only if not already there
-                if not self.isPORRecInTvlList (tvl_list, tvl_sht_rec):
-                    tvl_list.append (tvl_sht_rec)
+           # Retrieve the details of the POR
+           geo_id = optd_por_rec['geoname_id']
+           geo_id = int (geo_id)
+           env_id = optd_por_rec['envelope_id']
+           por_name = optd_por_rec['name']
+           ctry_code = optd_por_rec['country_code']
+           ctry_name = optd_por_rec['country_name']
+           adm1_code = optd_por_rec['adm1_code']
+           adm1_name_utf = optd_por_rec['adm1_name_utf']
+           
+           # If the POR is transport-related, add it to the target list
+           # (tvl_list), if not already there.
+           is_transport_related = self.isTransportRelated (optd_loc_type)
+           if is_transport_related:
+              tvl_sht_rec = {'iata_code': por_code,
+                             'location_type': optd_loc_type,
+                             'geoname_id': geo_id,
+                             'envelope_id': env_id,
+                             'name': por_name,
+                             'country_code': ctry_code,
+                             'country_name': ctry_name,
+                             'adm1_code': adm1_code,
+                             'adm1_name_utf': adm1_name_utf}
+              
+              # Add to the list only if not already there
+              if not self.isPORRecInTvlList (tvl_list, tvl_sht_rec):
+                 tvl_list.append (tvl_sht_rec)
 
-            # When the POR is a city (e.g., BAK, IEV), the list
-            # of airports, among the list of serving
-            # travel-/transport-related points, have to be retrieved.
-            # Note that non-airport POR (e.g., railway stations, ports)
-            # may also serve a given city.
-            is_city = re.search ("C", optd_loc_type)
+              # If the details for a city have not already been set,
+              # update the original POR details (as it may not be a city,
+              # like for instance CDG, LHR or ORD)
+              if not have_city_details_been_set:
+                 original_por_rec['location_type'] = optd_loc_type
+                 original_por_rec['geoname_id'] = geo_id
+                 original_por_rec['envelope_id'] = env_id
+                 original_por_rec['name'] = por_name
+                 original_por_rec['country_code'] = ctry_code
+                 original_por_rec['country_name'] = ctry_name
+                 original_por_rec['adm1_code'] = adm1_code
+                 original_por_rec['adm1_name_utf'] = adm1_name_utf
+              
+           # When the POR is a city (e.g., BAK, IEV), the list
+           # of airports, among the list of serving
+           # travel-/transport-related points, have to be retrieved.
+           # Note that non-airport POR (e.g., railway stations, ports)
+           # may also serve a given city.
+           is_city = re.search ("C", optd_loc_type)
 
-            # When the POR is not city (and can no longer be an airport
-            # or an offline point, as those cases have been handled above),
-            # there is no travel-/transport-related serving POR,
-            # by definition.
-            if not is_city: continue
+           # When the POR is not city (and can no longer be a
+           # transport-/travel-related serving POR, or an offline point,
+           # as those cases have been handled above), there is no
+           # travel-/transport-related serving POR, by definition.
+           if not is_city: continue
 
-            # Derive the serving travel-/transport-related points
-            tvl_por_list = optd_por_rec['tvl_por_list']
+           # Update the details of the (city) POR, and record that the details
+           # for a city have already been set
+           have_city_details_been_set = True
+           original_por_rec['location_type'] = optd_loc_type
+           original_por_rec['geoname_id'] = geo_id
+           original_por_rec['envelope_id'] = env_id
+           original_por_rec['name'] = por_name
+           original_por_rec['country_code'] = ctry_code
+           original_por_rec['country_name'] = ctry_name
+           original_por_rec['adm1_code'] = adm1_code
+           original_por_rec['adm1_name_utf'] = adm1_name_utf
+            
+           # Derive the serving travel-/transport-related points
+           tvl_por_list = optd_por_rec['tvl_por_list']
         
-            for tvl_por_code in tvl_por_list:
-                if not tvl_por_code in self.iata_por_dict:
-                    err_msg = "[OpenTravelData::getAirportList] The " \
-                        f"{tvl_por_code} IATA code (transport-related), " \
-                        f"serving {por_code} (city), does not seem " \
-                        "to be valid in OPTD"
-                    raise OPTDIATACodeError (err_msg)
+           for tvl_por_code in tvl_por_list:
+              if not tvl_por_code in self.iata_por_dict:
+                 err_msg = "[OpenTravelData::getAirportList] The " \
+                    f"{tvl_por_code} IATA code (transport-related), " \
+                    f"serving {por_code} (city), does not seem " \
+                    "to be valid in OPTD"
+                 raise OPTDIATACodeError (err_msg)
 
-                # Browse the various location types for that IATA code
-                tvl_por_rec_dict = self.iata_por_dict[tvl_por_code]
-                for tvl_loc_type, tvl_por_rec in tvl_por_rec_dict.items():
-                    # From the full POR record, retrieve the Geonames ID
-                    is_transport_related = self.isTransportRelated (tvl_loc_type)
-                    if is_transport_related:
-                        # Retrieve the Geonames ID and the envelope ID
-                        geo_id = tvl_por_rec['geoname_id']
-                        geo_id = int (geo_id)
-                        env_id = optd_por_rec['envelope_id']
-                        por_name = optd_por_rec['name']
-                        ctry_code = optd_por_rec['country_code']
-                        ctry_name = optd_por_rec['country_name']
-                        adm1_code = optd_por_rec['adm1_code']
-                        adm1_name_utf = optd_por_rec['adm1_name_utf']
+              # Browse the various location types for that IATA code
+              tvl_por_rec_dict = self.iata_por_dict[tvl_por_code]
+              for tvl_loc_type, tvl_por_rec in tvl_por_rec_dict.items():
+                 # From the full POR record, retrieve the Geonames ID
+                 is_transport_related = self.isTransportRelated (tvl_loc_type)
+                 if is_transport_related:
+                    # Retrieve the Geonames ID and the envelope ID
+                    geo_id = tvl_por_rec['geoname_id']
+                    geo_id = int (geo_id)
+                    env_id = optd_por_rec['envelope_id']
+                    por_name = optd_por_rec['name']
+                    ctry_code = optd_por_rec['country_code']
+                    ctry_name = optd_por_rec['country_name']
+                    adm1_code = optd_por_rec['adm1_code']
+                    adm1_name_utf = optd_por_rec['adm1_name_utf']
 
-                        # Insert into the target list (tvl_list)
-                        # only if not already present there
-                        # As dictionaries are not hashables,
-                        # a direct comparison cannot be made
-                        tvl_sht_rec = {'iata_code': tvl_por_code,
-                                       'location_type': tvl_loc_type,
-                                       'geoname_id': geo_id,
-                                       'envelope_id': env_id,
-                                       'name': por_name,
-                                       'country_code': ctry_code,
-                                       'country_name': ctry_name,
-                                       'adm1_code': adm1_code,
-                                       'adm1_name_utf': adm1_name_utf}
+                    # Insert into the target list (tvl_list)
+                    # only if not already present there
+                    # As dictionaries are not hashables,
+                    # a direct comparison cannot be made
+                    tvl_sht_rec = {'iata_code': tvl_por_code,
+                                   'location_type': tvl_loc_type,
+                                   'geoname_id': geo_id,
+                                   'envelope_id': env_id,
+                                   'name': por_name,
+                                   'country_code': ctry_code,
+                                   'country_name': ctry_name,
+                                   'adm1_code': adm1_code,
+                                   'adm1_name_utf': adm1_name_utf}
 
-                        # Add to the list only if not already there
-                        if not self.isPORRecInTvlList (tvl_list, tvl_sht_rec):
-                            tvl_list.append (tvl_sht_rec)
+                    # Add to the list only if not already there
+                    if not self.isPORRecInTvlList (tvl_list, tvl_sht_rec):
+                       tvl_list.append (tvl_sht_rec)
 
         #
         return srv_dict
