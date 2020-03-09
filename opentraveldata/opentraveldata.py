@@ -160,16 +160,16 @@ class OpenTravelData():
     unlc_por_dict = None
 
     def __init__ (self, local_dir = '/tmp/opentraveldata', verbose = False):
-        # Vebosity
+       # Vebosity
         self.verbose = verbose
 
         # Remote URL/file-path for IATA POR
         self.iata_por_file_url = \
-            f"{optd_url_base}/{optd_por_all_rel_path}?raw=true"
+           f"{optd_url_base}/{optd_por_all_rel_path}?raw=true"
 
         # Remote URL/file-path for UN/LOCODE POR
         self.unlc_por_file_url = \
-            f"{optd_url_base}/{optd_por_unlc_rel_path}?raw=true"
+           f"{optd_url_base}/{optd_por_unlc_rel_path}?raw=true"
 
         # Local copy/file-path, directory and file pointer
         self.local_dir = local_dir
@@ -177,27 +177,27 @@ class OpenTravelData():
         # For IATA POR
         self.local_iata_por_filename = os.path.basename (optd_por_all_rel_path)
         self.local_iata_por_filepath = \
-            f"{self.local_dir}/{self.local_iata_por_filename}"
+           f"{self.local_dir}/{self.local_iata_por_filename}"
 
         # For UN/LOCODE POR
         self.local_unlc_por_filename = os.path.basename (optd_por_unlc_rel_path)
         self.local_unlc_por_filepath = \
-            f"{self.local_dir}/{self.local_unlc_por_filename}"
+           f"{self.local_dir}/{self.local_unlc_por_filename}"
 
         # Create the local directory if not already existing
         try:
-            os.makedirs (self.local_dir, exist_ok = True)
+           os.makedirs (self.local_dir, exist_ok = True)
         except:
-            err_msg = "[OpenTravelData::init] Error while creating " \
-                f"{self.local_dir} directory locally"
-            raise OPTDLocalFileError (err_msg)            
-        
+           err_msg = "[OpenTravelData::init] Error while creating " \
+              f"{self.local_dir} directory locally"
+           raise OPTDLocalFileError (err_msg)            
+         
     def __repr__ (self):
-        repr_msg = "OpenTravelData:\n" \
-            f"\tLocal IATA/ICAO POR file: {self.local_iata_por_filepath}\n" \
-            f"\tLocal UN/LOCODE POR file: {self.local_unlc_por_filepath}"
-        return repr_msg
-    
+       repr_msg = "OpenTravelData:\n" \
+          f"\tLocal IATA/ICAO POR file: {self.local_iata_por_filepath}\n" \
+          f"\tLocal UN/LOCODE POR file: {self.local_unlc_por_filepath}"
+       return repr_msg
+     
     def iataPORFileURL (self):
         return self.iata_por_file_url
 
@@ -211,42 +211,42 @@ class OpenTravelData():
         return self.local_unlc_por_filepath
 
     def doLocalFilesExist (self):
-        do_files_exist = os.path.isfile (self.local_iata_por_filepath) and \
-            os.path.isfile (self.local_unlc_por_filepath)
-        return do_files_exist
+       do_files_exist = os.path.isfile (self.local_iata_por_filepath) and \
+          os.path.isfile (self.local_unlc_por_filepath)
+       return do_files_exist
 
     def fileSizes (self):
         iata_por_file_size = os.path.getsize (self.local_iata_por_filepath)
         unlc_por_file_size = os.path.getsize (self.local_unlc_por_filepath)
         if self.verbose:
-            print ("[Opentraveldata::fileSizes] Sizes - " \
-                   f"{self.local_iata_por_filepath}: {iata_por_file_size} ; " \
-                   f"{self.local_unlc_por_filepath}: {unlc_por_file_size}")
+           print ("[Opentraveldata::fileSizes] Sizes - " \
+                  f"{self.local_iata_por_filepath}: {iata_por_file_size} ; " \
+                  f"{self.local_unlc_por_filepath}: {unlc_por_file_size}")
         return (iata_por_file_size, unlc_por_file_size)
 
     def deleteLocalFiles (self):
         do_files_exist = self.doLocalFilesExist()
         if do_files_exist:
             if self.verbose:
-                print ("[Opentraveldata::deleteLocalFiles] Deleting " \
-                       f"{self.local_iata_por_filepath} and  " \
-                       f"{self.local_unlc_por_filepath}...")
-            os.remove (self.local_iata_por_filepath)
-            os.remove (self.local_unlc_por_filepath)
+               print ("[Opentraveldata::deleteLocalFiles] Deleting " \
+                      f"{self.local_iata_por_filepath} and  " \
+                      f"{self.local_unlc_por_filepath}...")
+               os.remove (self.local_iata_por_filepath)
+               os.remove (self.local_unlc_por_filepath)
 
             if verbose:
-                print ("[Opentraveldata::deleteLocalFiles] " \
-                       f"{self.local_iata_por_filepath} and  " \
-                       f"{self.local_unlc_por_filepath} have been deleted")
-                
+               print ("[Opentraveldata::deleteLocalFiles] " \
+                      f"{self.local_iata_por_filepath} and  " \
+                      f"{self.local_unlc_por_filepath} have been deleted")
+               
         # Sanity check
         do_files_exist = self.doLocalFilesExist()
         if do_files_exist:
             err_msg = "[OpenTravelData::deleteLocalFiles] The " \
-                f"{self.local_iata_por_filepath} and/or  " \
-                f"{self.local_unlc_por_filepath} files cannot be deleted"
+               f"{self.local_iata_por_filepath} and/or  " \
+               f"{self.local_unlc_por_filepath} files cannot be deleted"
             raise OPTDLocalFileError (err_msg)
-        #
+         #
         return
 
     def downloadIATAPORFile (self):
@@ -255,50 +255,50 @@ class OpenTravelData():
         repository.
         """
         if self.verbose:
-            print ("[OpenTravelData::downloadIATAPORFile] Downloading " \
-                   f"{self.local_iata_por_filepath} from " \
-                   f"{self.iata_por_file_url}...")
+           print ("[OpenTravelData::downloadIATAPORFile] Downloading " \
+                  f"{self.local_iata_por_filepath} from " \
+                  f"{self.iata_por_file_url}...")
 
         try:
             with urllib.request.urlopen (self.iata_por_file_url) as response, \
                  open (self.local_iata_por_filepath, 'wb') as out_file:
-                shutil.copyfileobj (response, out_file)
+               shutil.copyfileobj (response, out_file)
         except:
             err_msg = "[OpenTravelData::init] Error while downloading " \
-                f"{self.iata_por_file_url} as {self.local_iata_por_filepath}"
+              f"{self.iata_por_file_url} as {self.local_iata_por_filepath}"
             raise OPTDDownloadFileError (err_msg)
-            
+         
         if self.verbose:
-            file_size = os.path.getsize (self.local_iata_por_filepath)
-            print ("[Opentraveldata::downloadIATAPORFile] ... done. " \
-                   f"{self.local_iata_por_filepath} - Size: {file_size}")
+           file_size = os.path.getsize (self.local_iata_por_filepath)
+           print ("[Opentraveldata::downloadIATAPORFile] ... done. " \
+                  f"{self.local_iata_por_filepath} - Size: {file_size}")
         return
-    
+     
     def downloadUNLCPORFile (self):
         """
         Download the UN/LOCODE POR file from the OpenTravelData (OPTD) GitHub
         repository.
         """
         if self.verbose:
-            print ("[OpenTravelData::downloadUNLCPORFile] Downloading " \
-                   f"{self.local_unlc_por_filepath} from " \
-                   f"{self.unlc_por_file_url}...")
+           print ("[OpenTravelData::downloadUNLCPORFile] Downloading " \
+                  f"{self.local_unlc_por_filepath} from " \
+                  f"{self.unlc_por_file_url}...")
 
         try:
-            with urllib.request.urlopen (self.unlc_por_file_url) as response, \
-                 open (self.local_unlc_por_filepath, 'wb') as out_file:
-                shutil.copyfileobj (response, out_file)
+           with urllib.request.urlopen (self.unlc_por_file_url) as response, \
+                open (self.local_unlc_por_filepath, 'wb') as out_file:
+              shutil.copyfileobj (response, out_file)
         except:
             err_msg = "[OpenTravelData::init] Error while downloading " \
-                f"{self.unlc_por_file_url} as {self.local_unlc_por_filepath}"
+               f"{self.unlc_por_file_url} as {self.local_unlc_por_filepath}"
             raise OPTDDownloadFileError (err_msg)
-            
+         
         if self.verbose:
-            file_size = os.path.getsize (self.local_unlc_por_filepath)
-            print ("[Opentraveldata::downloadIATAPORFile] ... done. " \
-                   f"{self.local_unlc_por_filepath} - Size: {file_size}")
+           file_size = os.path.getsize (self.local_unlc_por_filepath)
+           print ("[Opentraveldata::downloadIATAPORFile] ... done. " \
+                  f"{self.local_unlc_por_filepath} - Size: {file_size}")
         return
-    
+     
     def downloadFilesIfNeeded (self):
         """
         Download the IATA and UN/LOCODE POR files from the
@@ -314,23 +314,23 @@ class OpenTravelData():
         # Check whether the OPTD data file has already been downloaded
         do_files_exist = self.doLocalFilesExist()
         if not do_files_exist:
-            self.downloadUNLCPORFile()
-            self.downloadIATAPORFile()
-            
+           self.downloadUNLCPORFile()
+           self.downloadIATAPORFile()
+           
         iata_por_file_size, unlc_por_file_size = self.fileSizes()
         mtime = os.path.getmtime (self.local_iata_por_filepath)
         file_time = datetime.datetime.fromtimestamp (mtime)
         if self.verbose:
-            print ("[Opentraveldata::downloadFilesIfNeeded] " \
-                   f"{self.local_iata_por_filepath} - Size: " \
-                   f"{iata_por_file_size} - " \
-                   f"{self.local_unlc_por_filepath} - Size: " \
-                   f"{unlc_por_file_size} - " \
-                   f"Time-stamp: {file_time}. If those files are too old, " \
-                   "you can delete them, e.g. by calling the " \
-                   "deleteLocalFiles() method and call again this method " \
-                   "(downloadFilesIfNeeded())")
-                
+           print ("[Opentraveldata::downloadFilesIfNeeded] " \
+                  f"{self.local_iata_por_filepath} - Size: " \
+                  f"{iata_por_file_size} - " \
+                  f"{self.local_unlc_por_filepath} - Size: " \
+                  f"{unlc_por_file_size} - " \
+                  f"Time-stamp: {file_time}. If those files are too old, " \
+                  "you can delete them, e.g. by calling the " \
+                  "deleteLocalFiles() method and call again this method " \
+                  "(downloadFilesIfNeeded())")
+           
         #
         return
 
@@ -348,7 +348,7 @@ class OpenTravelData():
         with open (self.local_iata_por_filepath, newline='') as csvfile:
             file_reader = csv.reader (csvfile, delimiter='^')
             for i in range (lines):
-                print (','.join(file_reader.__next__()))
+               print (','.join(file_reader.__next__()))
 
         # UN/LOCODE POR file
         print (f"Header of the '{self.local_unlc_por_filepath}' file")
@@ -356,7 +356,7 @@ class OpenTravelData():
         with open (self.local_unlc_por_filepath, newline='') as csvfile:
             file_reader = csv.reader (csvfile, delimiter='^')
             for i in range (lines):
-                print (','.join(file_reader.__next__()))
+               print (','.join(file_reader.__next__()))
 
         #
         return
@@ -372,8 +372,8 @@ class OpenTravelData():
         # IATA POR
         header_line_iata_por = ''
         with open (self.local_iata_por_filepath) as tmpfile:
-            header_line_iata_por = tmpfile.readline().strip()
-        
+           header_line_iata_por = tmpfile.readline().strip()
+           
         #
         return header_line_iata_por
 
@@ -388,8 +388,8 @@ class OpenTravelData():
         # UN/LOCODE POR
         header_line_unlc_por = ''
         with open (self.local_unlc_por_filepath) as tmpfile:
-            header_line_unlc_por = tmpfile.readline().strip()
-        
+           header_line_unlc_por = tmpfile.readline().strip()
+           
         #
         return header_line_unlc_por
 
@@ -402,11 +402,11 @@ class OpenTravelData():
         # If the dictionaries have already been initialized, just move on,
         # no need to re-initialize it
         if not self.iata_por_dict:
-            # Sanity check: either both POR dictionaries should have been
-            # initialized, or none. But one dictionary cannot have been
-            # initialized, while the other was not
+           # Sanity check: either both POR dictionaries should have been
+           # initialized, or none. But one dictionary cannot have been
+           # initialized, while the other was not
             err_msg = "[OpenTravelData::extractPORSubsetFromOPTD] " \
-                "Consistency error with the two POR dictionaries"
+               "Consistency error with the two POR dictionaries"
             assert not self.unlc_por_dict, err_msg
             assert not self.geo_por_dict, err_msg
             
@@ -422,10 +422,10 @@ class OpenTravelData():
 
         # Reporting
         if self.verbose:
-            print ("[OpenTravelData::extractPORSubsetFromOPTD] Extracting " \
-                   f"POR dictionaries from {self.local_iata_por_filepath} " \
-                   f"and {self.local_unlc_por_filepath}...")
-            
+           print ("[OpenTravelData::extractPORSubsetFromOPTD] Extracting " \
+                  f"POR dictionaries from {self.local_iata_por_filepath} " \
+                  f"and {self.local_unlc_por_filepath}...")
+           
         # OPTD-maintained list of POR
         with open (self.local_iata_por_filepath, newline='') as csvfile:
             file_reader = csv.DictReader (csvfile, delimiter='^')
@@ -472,28 +472,28 @@ class OpenTravelData():
                 # then allows to differentiate them
                 for unlc in unlc_list:
                     if not unlc in self.unlc_por_dict:
-                        self.unlc_por_dict[unlc] = dict()
+                       self.unlc_por_dict[unlc] = dict()
 
                     self.unlc_por_dict[unlc][optd_geo_id] = optd_por_rec
-                
+                    
                 # Geonames POR dictionary
                 # There is a single POR (point of reference)
                 # for a specific Geonames ID.
                 if not optd_geo_id in self.geo_por_dict:
-                    self.geo_por_dict[optd_geo_id] = optd_por_rec
-                
+                   self.geo_por_dict[optd_geo_id] = optd_por_rec
+                   
                 # IATA POR dictionary
                 # Only the POR with a IATA code are interesting
                 # from this stage onwards
                 if optd_por_code == '':
                     continue
-                
+                 
                 # There may be several POR (points of reference)
                 # with the same IATA code. The location type (e.g.,
                 # 'C' for city, 'A' for airrport) then allows
                 # to differentiate them
                 if not optd_por_code in self.iata_por_dict:
-                    self.iata_por_dict[optd_por_code] = dict()
+                   self.iata_por_dict[optd_por_code] = dict()
 
                 self.iata_por_dict[optd_por_code][optd_loc_type] = optd_por_rec
 
@@ -507,7 +507,7 @@ class OpenTravelData():
         """
         is_airport = re.search ("A", loc_type)
         return is_airport
-    
+     
     def isHeliport (self, loc_type = None):
         """
         That method states whether the lcation type corresponds
@@ -515,7 +515,7 @@ class OpenTravelData():
         """
         is_heliport = re.search ("H", loc_type)
         return is_heliport
-    
+     
     def isPort (self, loc_type = None):
         """
         That method states whether the lcation type corresponds
@@ -523,7 +523,7 @@ class OpenTravelData():
         """
         is_port = re.search ("P", loc_type)
         return is_port
-    
+     
     def isRailwayStation (self, loc_type = None):
         """
         That method states whether the lcation type corresponds
@@ -531,7 +531,7 @@ class OpenTravelData():
         """
         is_railway_station = re.search ("R", loc_type)
         return is_railway_station
-    
+     
     def isBusStation (self, loc_type = None):
         """
         That method states whether the lcation type corresponds
@@ -539,7 +539,7 @@ class OpenTravelData():
         """
         is_bus_station = re.search ("B", loc_type)
         return is_bus_station
-    
+     
     def isOffline (self, loc_type = None):
         """
         That method states whether the lcation type corresponds
@@ -547,17 +547,17 @@ class OpenTravelData():
         """
         is_offpoint = re.search ("O", loc_type)
         return is_offpoint
-    
+     
     def isTransportRelated (self, loc_type = None):
         """
         That method states whether the lcation type corresponds
         to a serving POR wrt travel or transport
         """
         is_tvl = self.isAirport (loc_type) or self.isHeliport (loc_type) \
-            or self.isPort (loc_type) or self.isRailwayStation (loc_type) \
-            or self.isBusStation (loc_type) or self.isOffline (loc_type)
+           or self.isPort (loc_type) or self.isRailwayStation (loc_type) \
+           or self.isBusStation (loc_type) or self.isOffline (loc_type)
         return is_tvl
-    
+     
     def isCity (self, loc_type = None):
         """
         That method states whether the lcation type corresponds
@@ -574,18 +574,18 @@ class OpenTravelData():
         https://geonames.org/<geonames-id>
         """
         optd_por_rec = None
-        
+       
         # If the dictionary is still empty, initialize it
         if not self.geo_por_dict:
-            self.extractPORSubsetFromOPTD()
+           self.extractPORSubsetFromOPTD()
 
         #
         if por_geo_id in self.geo_por_dict:
-            optd_por_rec = self.geo_por_dict[por_geo_id]
+           optd_por_rec = self.geo_por_dict[por_geo_id]
         else:
             if self.verbose:
-                print ("[OpenTravelData::getPORByGeoID] Error - A POR with " \
-                       f"{por_geo_id} as Geonames ID cannot be found in OPTD")
+               print ("[OpenTravelData::getPORByGeoID] Error - A POR with " \
+                      f"{por_geo_id} as Geonames ID cannot be found in OPTD")
 
         return optd_por_rec
 
@@ -594,11 +594,11 @@ class OpenTravelData():
 
         for tvl_rec in tvl_list:
             if tvl_rec == tvl_sht_rec:
-                is_in_list = True
-                return is_in_list
-        
+               is_in_list = True
+               return is_in_list
+             
         return is_in_list
-    
+     
     def getServingPORList (self, por_code = 'FRA',
                            only_when_city_code_differs = True):
         """
@@ -617,10 +617,10 @@ class OpenTravelData():
         And getServingPORList('CHI') will always return
           {'DPA', 'MDW', 'ORD', 'PWK', 'RFD'}
         """
- 
+       
         # If the dictionary is still empty, initialize it
         if not self.iata_por_dict:
-            self.extractPORSubsetFromOPTD()
+           self.extractPORSubsetFromOPTD()
 
         # Initialize the return structure (list)
         original_por_rec = {'iata_code': por_code, 'location_type': None,
@@ -680,7 +680,7 @@ class OpenTravelData():
                  original_por_rec['country_name'] = ctry_name
                  original_por_rec['adm1_code'] = adm1_code
                  original_por_rec['adm1_name_utf'] = adm1_name_utf
-              
+                 
            # When the POR is a city (e.g., BAK, IEV), the list
            # of airports, among the list of serving
            # travel-/transport-related points, have to be retrieved.
@@ -694,8 +694,12 @@ class OpenTravelData():
            # travel-/transport-related serving POR, by definition.
            if not is_city: continue
 
-           # Update the details of the (city) POR, and record that the details
-           # for a city have already been set
+           # The update of the details for the (city) POR has to be done once.
+           # Example of multiple city POR having the same IATA code: RDU
+           if have_city_details_been_set: continue
+           
+           # Record that the details for the city POR will have been set (once
+           # the following code will be executed)
            have_city_details_been_set = True
            original_por_rec['location_type'] = optd_loc_type
            original_por_rec['geoname_id'] = geo_id
@@ -705,10 +709,10 @@ class OpenTravelData():
            original_por_rec['country_name'] = ctry_name
            original_por_rec['adm1_code'] = adm1_code
            original_por_rec['adm1_name_utf'] = adm1_name_utf
-            
+           
            # Derive the serving travel-/transport-related points
            tvl_por_list = optd_por_rec['tvl_por_list']
-        
+           
            for tvl_por_code in tvl_por_list:
               if not tvl_por_code in self.iata_por_dict:
                  err_msg = "[OpenTravelData::getAirportList] The " \
@@ -726,12 +730,12 @@ class OpenTravelData():
                     # Retrieve the Geonames ID and the envelope ID
                     geo_id = tvl_por_rec['geoname_id']
                     geo_id = int (geo_id)
-                    env_id = optd_por_rec['envelope_id']
-                    por_name = optd_por_rec['name']
-                    ctry_code = optd_por_rec['country_code']
-                    ctry_name = optd_por_rec['country_name']
-                    adm1_code = optd_por_rec['adm1_code']
-                    adm1_name_utf = optd_por_rec['adm1_name_utf']
+                    env_id = tvl_por_rec['envelope_id']
+                    por_name = tvl_por_rec['name']
+                    ctry_code = tvl_por_rec['country_code']
+                    ctry_name = tvl_por_rec['country_name']
+                    adm1_code = tvl_por_rec['adm1_code']
+                    adm1_name_utf = tvl_por_rec['adm1_name_utf']
 
                     # Insert into the target list (tvl_list)
                     # only if not already present there
