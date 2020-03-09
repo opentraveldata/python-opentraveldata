@@ -76,11 +76,11 @@ running egg_info
 creating opentraveldata.egg-info
 ...
 running check
-creating opentraveldata-0.0.7
+creating opentraveldata-0.0.8
 ...
 creating dist
 Creating tar archive
-removing 'opentraveldata-0.0.7' (and everything under it)
+removing 'opentraveldata-0.0.8' (and everything under it)
 running bdist_wheel
 ...
 creating build
@@ -93,16 +93,16 @@ running install_egg_info
 adding 'opentraveldata/__init__.py'
 adding 'opentraveldata/csvwriter.py'
 adding 'opentraveldata/opentraveldata.py'
-adding 'opentraveldata-0.0.7.dist-info/METADATA'
-adding 'opentraveldata-0.0.7.dist-info/WHEEL'
-adding 'opentraveldata-0.0.7.dist-info/top_level.txt'
-adding 'opentraveldata-0.0.7.dist-info/RECORD'
+adding 'opentraveldata-0.0.8.dist-info/METADATA'
+adding 'opentraveldata-0.0.8.dist-info/WHEEL'
+adding 'opentraveldata-0.0.8.dist-info/top_level.txt'
+adding 'opentraveldata-0.0.8.dist-info/RECORD'
 removing build/bdist.macosx-10.15-x86_64/wheel
 
 user@laptop$ ls -lFh dist/
 total 96
--rw-r--r--  1 user  staff  11K Mar  9 16:02 opentraveldata-0.0.7-py3-none-any.whl
--rw-r--r--  1 user  staff  32K Mar  9 16:02 opentraveldata-0.0.7.tar.gz
+-rw-r--r--  1 user  staff  11K Mar  9 16:02 opentraveldata-0.0.8-py3-none-any.whl
+-rw-r--r--  1 user  staff  32K Mar  9 16:02 opentraveldata-0.0.8.tar.gz
 ```
 
 * Upload/release the Python packages onto the
@@ -111,12 +111,12 @@ total 96
 user@laptop$ PYPIURL="https://test.pypi.org"
 user@laptop$ pipenv run twine upload -u __token__ --repository-url ${PYPIURL}/legacy/ dist/*
 Uploading distributions to https://test.pypi.org/legacy/
-Uploading opentraveldata-0.0.7-py3-none-any.whl
+Uploading opentraveldata-0.0.8-py3-none-any.whl
 100%|█████████████████████████████████████████████████████████████████████| 23.7k/23.7k [00:01<00:00, 13.5kB/s]
-Uploading opentraveldata-0.0.7.tar.gz
+Uploading opentraveldata-0.0.8.tar.gz
 100%|█████████████████████████████████████████████████████████████████████| 44.3k/44.3k [00:01<00:00, 41.2kB/s]
 
-View at: https://test.pypi.org/project/opentraveldata/0.0.7/
+View at: https://test.pypi.org/project/opentraveldata/0.0.8/
 ```
 
 * Upload/release the Python packages onto the
@@ -127,13 +127,13 @@ user@laptop$ pipenv run keyring set ${PYPIURL}/ __token__
 Password for '__token__' in '${PYPIURL}/':
 user@laptop$ pipenv run twine upload -u __token__ --non-interactive dist/*
 Uploading distributions to https://upload.pypi.org/legacy/
-Uploading opentraveldata-0.0.7-py3-none-any.whl
+Uploading opentraveldata-0.0.8-py3-none-any.whl
 100%|██████████████████████████████████████████████████████████████████████| 23.7k/23.7k [00:01<00:00, 15.2kB/s]
-Uploading opentraveldata-0.0.7.tar.gz
+Uploading opentraveldata-0.0.8.tar.gz
 100%|██████████████████████████████████████████████████████████████████████| 44.3k/44.3k [00:01<00:00, 44.7kB/s]
 
 View at:
-https://pypi.org/project/opentraveldata/0.0.7/
+https://pypi.org/project/opentraveldata/0.0.8/
 ```
 
 # Test the Python module
@@ -162,8 +162,8 @@ $ pipenv run tox
 .package installdeps: setuptools >= 35.0.2, setuptools_scm >= 2.0.0, <3
 py38 create: ~/dev/geo/python-opentraveldata/.tox/py38
 py38 installdeps: pytest
-py38 inst: ~/dev/geo/python-opentraveldata/.tox/.tmp/package/1/opentraveldata-0.0.7.tar.gz
-py38 installed: attrs==19.3.0,certifi==2019.11.28,chardet==3.0.4,idna==2.9,more-itertools==8.2.0,opentraveldata==0.0.7,packaging==20.3,pluggy==0.13.1,py==1.8.1,pyparsing==2.4.6,pytest==5.3.5,python-dateutil==2.8.1,pytz==2019.3,requests==2.23.0,six==1.14.0,urllib3==1.25.8,wcwidth==0.1.8
+py38 inst: ~/dev/geo/python-opentraveldata/.tox/.tmp/package/1/opentraveldata-0.0.8.tar.gz
+py38 installed: attrs==19.3.0,certifi==2019.11.28,chardet==3.0.4,idna==2.9,more-itertools==8.2.0,opentraveldata==0.0.8,packaging==20.3,pluggy==0.13.1,py==1.8.1,pyparsing==2.4.6,pytest==5.3.5,python-dateutil==2.8.1,pytz==2019.3,requests==2.23.0,six==1.14.0,urllib3==1.25.8,wcwidth==0.1.8
 py38 run-test-pre: PYTHONHASHSEED='3773488260'
 py38 run-test: commands[0] | pytest
 ======================= test session starts =============================
