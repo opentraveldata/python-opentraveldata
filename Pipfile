@@ -12,6 +12,7 @@ awscli = "*"
 tox = "*"
 twine = "*"
 pytest = "*"
+pyjq = "*"
 
 [packages]
 datetime = "*"

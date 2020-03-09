@@ -6,9 +6,9 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='opentraveldata',
-    version='0.0.5',
+    version='0.0.7',
     author='Denis Arnaud',
-    author_email='denis.arnaud_fedora@m4x.org',
+    author_email='denis.arnaud_pypi@m4x.org',
     description=('''Simple Python wrapper for OpenTravelata (OPTD)'''),
     license='MIT',
     keywords='api python optd opentraveldata package',
@@ -23,9 +23,7 @@ setuptools.setup(
     ],
     install_requires=[
         'python-dateutil',
-        'pytz', 'six',
-        'requests',
-        'urllib3'
+        'pytz'
     ],
 )
 

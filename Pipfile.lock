@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "a8392c7ab68cedd669c7f8c1da317ef788a51ed0040b33591e455147a5246b4c"
+            "sha256": "ce711abb64c2c01de01799ba0a871d6a4d0e1e28a907021fd2b89b25adbdc5d9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -89,7 +89,7 @@
                 "sha256:5b26757dc6f79a3b7dc9fab95359328d5747fcb2409d331ea66d0272b90ab2a0",
                 "sha256:8b995ffe925347a2138d7ac0fe77155e4311a0ea6d6da4f5128fe4b3cbe5ed71"
             ],
-            "markers": "sys_platform == 'darwin'",
+            "markers": "platform_system == 'Darwin'",
             "version": "==0.1.0"
         },
         "attrs": {
@@ -484,9 +484,17 @@
         "pygments": {
             "hashes": [
                 "sha256:647344a061c249a3b74e230c739f434d7ea4d8b1d5f3721bc0f3558049b38f44",
-                "sha256:aa931c0bd5daa25c475afadb2147115134cfe501f0656828cbe7cb566c7123bc"
+                "sha256:ff7a40b4860b727ab48fad6360eb351cc1b33cbf9b15a0f689ca5353e9463324"
             ],
             "version": "==2.6.1"
+        },
+        "pyjq": {
+            "hashes": [
+                "sha256:562e62a18d306d4fefe691d2ced951b34e44f0d300da505727cd66e2aa70aa0c",
+                "sha256:651f7a3ab2087e7c69cf00f1ba5433d7afe7b72f4ff499dcaf9c86cb1c2ae3c1"
+            ],
+            "index": "pypi",
+            "version": "==2.4.0"
         },
         "pyparsing": {
             "hashes": [
