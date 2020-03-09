@@ -20,6 +20,9 @@ def test_download_feature():
     optd_unlc_filepath = myOPTD.localUNLCPORFilepath()
     optd_unlc_fileurl = myOPTD.unlcPORFileURL() 
 
+    # Download the OPTD POR files
+    myOPTD.downloadFilesIfNeeded()
+    
     # Retrieve the sizes of the downloaded files
     (optd_por_file_size, optd_unlc_file_size) = myOPTD.fileSizes()
 
