@@ -7,14 +7,17 @@ Python wrapper around OpenTravelData (OPTD) data sets, for instance
 to be used by Python software needing to access OPTD data.
 
 # References
+* PyPi artifacts: https://pypi.org/project/opentraveldata/
 * OpenTravelData (OPTD):
   + Source code on GitHub: https://opentraveldata/opentraveldata
   + Docker Cloud repository: https://cloud.docker.com/u/opentraveldata/repository/docker/opentraveldata/quality-assurance
   + This Python-wrapper Git repository: https://github.com/opentraveldata/python-opentraveldata
 * OPTD data archive:
   + POR (Points of Reference)): https://www2.transport-search.org/data/optd/por/
+  + CI/CD deliveries: https://www2.transport-search.org/data/optd/cicd/
 * OPTD Quality Assurance (QA):
   + Sourcce code on GitHub: https://github.com/opentraveldata/quality-assurance
+  + Quality Assurance (QA) reports: https://www2.transport-search.org/data/optd/qa/
 
 ## Python
 * [How-to install Python virtual environment with `pyenv` and `pipenv`](https://github.com/machine-learning-helpers/induction-python/tree/master/installation/virtual-env)
