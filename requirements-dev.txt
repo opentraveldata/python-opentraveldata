@@ -2,12 +2,12 @@
 appdirs==1.4.3
 appnope==0.1.0 ; platform_system == 'Darwin'
 attrs==19.3.0
-awscli==1.18.16
-awsume==4.2.7
+awscli==1.18.30
+awsume==4.3.0
 backcall==0.1.0
-bleach==3.1.1
-boto3==1.12.16
-botocore==1.15.16
+bleach==3.1.4
+boto3==1.12.30
+botocore==1.15.30
 certifi==2019.11.28
 chardet==3.0.4
 colorama==0.4.3 ; python_version != '3.4'
@@ -18,19 +18,19 @@ docutils==0.15.2
 entrypoints==0.3
 filelock==3.0.12
 idna==2.9
-ipykernel==5.1.4
+ipykernel==5.2.0
 ipython-genutils==0.2.0
 ipython==7.13.0
 jedi==0.16.0
 jinja2==2.11.1
 jmespath==0.9.5
-json5==0.9.2
+json5==0.9.3
 jsonschema==3.2.0
-jupyter-client==6.0.0
+jupyter-client==6.1.2
 jupyter-core==4.6.3
 jupyterlab-server==1.0.7
 jupyterlab==2.0.1
-keyring==21.1.1
+keyring==21.2.0
 markupsafe==1.1.1
 mistune==0.8.4
 more-itertools==8.2.0
@@ -45,7 +45,7 @@ pickleshare==0.7.5
 pkginfo==1.5.0.1
 pluggy==0.13.1
 prometheus-client==0.7.1
-prompt-toolkit==3.0.4
+prompt-toolkit==3.0.5
 psutil==5.7.0
 ptyprocess==0.6.0 ; os_name != 'nt'
 py==1.8.1
@@ -53,12 +53,12 @@ pyasn1==0.4.8
 pygments==2.6.1
 pyjq==2.4.0
 pyparsing==2.4.6
-pyrsistent==0.15.7
-pytest==5.3.5
+pyrsistent==0.16.0
+pytest==5.4.1
 python-dateutil==2.8.1
-pyyaml==5.3 ; python_version != '3.4'
+pyyaml==5.3.1 ; python_version != '3.4'
 pyzmq==19.0.0
-readme-renderer==24.0
+readme-renderer==25.0
 requests-toolbelt==0.9.1
 requests==2.23.0
 rsa==3.4.2
@@ -69,11 +69,11 @@ terminado==0.8.3
 testpath==0.4.4
 toml==0.10.0
 tornado==6.0.4
-tox==3.14.5
+tox==3.14.6
 tqdm==4.43.0
 traitlets==4.3.3
 twine==3.1.1
 urllib3==1.25.8 ; python_version != '3.4'
-virtualenv==20.0.9
-wcwidth==0.1.8
+virtualenv==20.0.14
+wcwidth==0.1.9
 webencodings==0.5.1

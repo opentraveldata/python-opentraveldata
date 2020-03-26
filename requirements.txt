@@ -1,4 +1,4 @@
 -i https://pypi.org/simple
 datetime==4.3
 pytz==2019.3
-zope.interface==4.7.1
+zope.interface==5.0.1
