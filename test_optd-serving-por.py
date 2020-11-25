@@ -71,9 +71,10 @@ def test_serving_por_for_iev_city():
     # Extract the list of Geonames ID of the serving POR
     serving_por_list = pyjq.\
         all ('.tvl_list[] | .geoname_id', iev_serving_por_struct)
-    does_geo_id_list_match = (serving_por_list == [6300960, 6300952, 8260936, 0])
+    does_geo_id_list_match = (serving_por_list == [6300960, 6300952, 8260936, 12156352])
     assert does_geo_id_list_match, \
         "The list of Geonames ID for the serving POR of the city of Kyiv " \
         "(assigned IEV as IATA code) is expected to be " \
-        "[6300960, 6300952, 8260936, 0], but is not. Actual list: " \
+        "[6300960, 6300952, 8260936, 12156352], but is not. Actual list: " \
         f"{serving_por_list}"
+
