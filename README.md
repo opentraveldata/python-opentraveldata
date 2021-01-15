@@ -34,7 +34,7 @@ to be used by Python software needing to access OPTD data.
   and `pipenv`:
   https://github.com/machine-learning-helpers/induction-python/tree/master/installation/virtual-env
 
-* Install Pyenv, Python 3.8.1, `pip` and `pipenv`:
+* Install Pyenv, Python 3.9.1, `pip` and `pipenv`:
 ```bash
 user@laptop$ if [ ! -d ${HOME}/.pyenv ]; then git clone https://github.com/pyenv/pyenv.git ${HOME}/.pyenv; else pushd ${HOME}/.pyenv && git pull && popd; fi
 user@laptop$ cat >> ~/.bashrc << _EOF
@@ -46,7 +46,7 @@ eval "\$(pipenv --completion)"
  
 _EOF
 user@laptop$ . ~/.bashrc
-user@laptop$ pyenv install 3.81 && pyenv global 3.8.1 && pip install -U pip pipenv && pyenv global system
+user@laptop$ pyenv install 3.9.1 && pyenv global 3.9.1 && pip install -U pip pipenv && pyenv global system
 ```
 
 * Clone the Git repository and install the Python virtual environment
@@ -57,7 +57,7 @@ user@laptop$ mkdir -p ~/dev/geo && \
 user@laptop$ cd ~/dev/geo/python-opentraveldata
 user@laptop$ pipenv --rm && pipenv install && pipenv install --dev
 user@laptop$ python --version
-Python 3.8.1
+Python 3.9.1
 ```
 
 ## PyPi credentials for Travis deployment
@@ -100,7 +100,7 @@ adding 'opentraveldata-0.0.8.dist-info/METADATA'
 adding 'opentraveldata-0.0.8.dist-info/WHEEL'
 adding 'opentraveldata-0.0.8.dist-info/top_level.txt'
 adding 'opentraveldata-0.0.8.dist-info/RECORD'
-removing build/bdist.macosx-10.15-x86_64/wheel
+removing build/bdist.macosx-11.1-x86_64/wheel
 
 user@laptop$ ls -lFh dist/
 total 96
@@ -128,7 +128,7 @@ View at: https://test.pypi.org/project/opentraveldata/0.0.8/
 user@laptop$ PYPIURL="https://pypi.org"
 user@laptop$ pipenv run keyring set ${PYPIURL}/ __token__
 Password for '__token__' in '${PYPIURL}/':
-user@laptop$ pipenv run twine upload -u __token__ --non-interactive dist/*
+user@laptop$ pipenv run twine upload -u __token__ --non-interactive --repository-url ${PYPIURL}/legacy/ dist/*
 Uploading distributions to https://upload.pypi.org/legacy/
 Uploading opentraveldata-0.0.8-py3-none-any.whl
 100%|██████████████████████████████████████████████████████████████████████| 23.7k/23.7k [00:01<00:00, 15.2kB/s]
@@ -146,7 +146,7 @@ https://pypi.org/project/opentraveldata/0.0.8/
 ```bash
 $ pipenv run pytest test_optd-csvwriter.py
 ======================= test session starts =============================
-platform darwin -- Python 3.8.2, pytest-5.3.5, py-1.8.1, pluggy-0.13.1
+platform darwin -- Python 3.9.1, pytest-5.3.5, py-1.8.1, pluggy-0.13.1
 rootdir: ~/dev/geo/python-opentraveldata
 collected 3 items                                                     
 
@@ -163,15 +163,15 @@ _________________________________ summary _____________________________
 $ pipenv run tox
 .package recreate: ~/dev/geo/python-opentraveldata/.tox/.package
 .package installdeps: setuptools >= 35.0.2, setuptools_scm >= 2.0.0, <3
-py38 create: ~/dev/geo/python-opentraveldata/.tox/py38
-py38 installdeps: pytest
-py38 inst: ~/dev/geo/python-opentraveldata/.tox/.tmp/package/1/opentraveldata-0.0.8.tar.gz
-py38 installed: attrs==19.3.0,certifi==2019.11.28,chardet==3.0.4,idna==2.9,more-itertools==8.2.0,opentraveldata==0.0.8,packaging==20.3,pluggy==0.13.1,py==1.8.1,pyparsing==2.4.6,pytest==5.3.5,python-dateutil==2.8.1,pytz==2019.3,requests==2.23.0,six==1.14.0,urllib3==1.25.8,wcwidth==0.1.8
-py38 run-test-pre: PYTHONHASHSEED='3773488260'
-py38 run-test: commands[0] | pytest
+py39 create: ~/dev/geo/python-opentraveldata/.tox/py39
+py39 installdeps: pytest
+py39 inst: ~/dev/geo/python-opentraveldata/.tox/.tmp/package/1/opentraveldata-0.0.8.tar.gz
+py39 installed: attrs==19.3.0,certifi==2019.11.28,chardet==3.0.4,idna==2.9,more-itertools==8.2.0,opentraveldata==0.0.8,packaging==20.3,pluggy==0.13.1,py==1.8.1,pyparsing==2.4.6,pytest==5.3.5,python-dateutil==2.8.1,pytz==2019.3,requests==2.23.0,six==1.14.0,urllib3==1.25.8,wcwidth==0.1.8
+py39 run-test-pre: PYTHONHASHSEED='3773488260'
+py39 run-test: commands[0] | pytest
 ======================= test session starts =============================
-platform darwin -- Python 3.8.2, pytest-5.3.5, py-1.8.1, pluggy-0.13.1
-cachedir: .tox/py38/.pytest_cache
+platform darwin -- Python 3.9.1, pytest-5.3.5, py-1.8.1, pluggy-0.13.1
+cachedir: .tox/py39/.pytest_cache
 rootdir: ~/dev/geo/python-opentraveldata
 collected 3 items                                                     
 
@@ -180,7 +180,7 @@ test_optd-serving-por.py ..                                        [100%]
 
 =============================== 3 passed in 2.58s =======================
 _________________________________ summary _____________________________
-  py38: commands succeeded
+  py39: commands succeeded
   congratulations :)
 
 ```

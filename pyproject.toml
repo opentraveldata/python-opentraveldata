@@ -1,13 +1,13 @@
 [project]
 name = "opentraveldata"
-version = "0.0.1"
+version = "0.0.8"
 description = "Simple Python wrapper for OpenTravelata (OPTD)"
 authors = [
 	"Denis Arnaud <denis.arnaud_fedora@m4x.org>"
 ]
 license = "MIT"
 readme = "README.md"
-python = "^3.8"
+python = "^3.9"
 homepage = "https://github.com/opentraveldata/python-opentraveldata"
 repository = "https://github.com/opentraveldata/python-opentraveldata"
 documentation = "https://github.com/opentraveldata/python-opentraveldata"
