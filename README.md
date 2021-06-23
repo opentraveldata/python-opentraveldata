@@ -27,6 +27,39 @@ to be used by Python software needing to access OPTD data.
   + [dpl v2](https://blog.travis-ci.com/2019-08-27-deployment-tooling-dpl-v2-preview-release)
   + [dpl v1](https://docs.travis-ci.com/user/deployment/pypi/)
 
+# Usage
+
+* Launch a Python interpreter:
+```bash
+$ python
+```
+```python
+>>> 
+```
+
+* Import the `opentraveldata` library:
+```python
+>>> import opentraveldata
+```
+
+* Specify a variable, say `myOPTD`, as a handle on the OPTD library:
+```python
+>>> myOPTD = opentraveldata.OpenTravelData()
+```
+
+* Download the latest data files (to be done once in a while; it takes
+  a few seconds, depending on the network bandwidth):
+```python
+>>> myOPTD.downloadFilesIfNeeded()
+```
+
+* Retrieve the details for the `IEV` code:
+```python
+>>> por = myOPTD.getServingPORList ('IEV')
+>>> por
+{'original': {'iata_code': 'IEV', 'location_type': 'C', 'geoname_id': 703448, 'envelope_id': '', 'name': 'Kyiv', 'country_code': 'UA', 'country_name': 'Ukraine', 'adm1_code': '12', 'adm1_name_utf': 'Kyiv City'}, 'tvl_list': [{'iata_code': 'IEV', 'location_type': 'A', 'geoname_id': 6300960, 'envelope_id': '', 'name': 'Kyiv Zhuliany International Airport', 'country_code': 'UA', 'country_name': 'Ukraine', 'adm1_code': '12', 'adm1_name_utf': 'Kyiv City'}, {'iata_code': 'KBP', 'location_type': 'A', 'geoname_id': 6300952, 'envelope_id': '', 'name': 'Kyiv Boryspil International Airport', 'country_code': 'UA', 'country_name': 'Ukraine', 'adm1_code': '13', 'adm1_name_utf': 'Kiev'}, {'iata_code': 'QOF', 'location_type': 'B', 'geoname_id': 8260936, 'envelope_id': '', 'name': 'Darnytsia Bus Station', 'country_code': 'UA', 'country_name': 'Ukraine', 'adm1_code': '13', 'adm1_name_utf': 'Kiev'}, {'iata_code': 'QOH', 'location_type': 'B', 'geoname_id': 12156352, 'envelope_id': '', 'name': 'Premier Hotel Rus Bus Stop', 'country_code': 'UA', 'country_name': 'Ukraine', 'adm1_code': '12', 'adm1_name_utf': 'Kyiv City'}]}
+```
+
 # Installation - configuration
 
 ## Python

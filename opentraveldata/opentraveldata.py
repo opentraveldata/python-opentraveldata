@@ -444,9 +444,9 @@ class OpenTravelData():
         # If the dictionaries have already been initialized, just move on,
         # no need to re-initialize it
         if not self.iata_por_dict:
-           # Sanity check: either both POR dictionaries should have been
+           # Sanity check: either all POR dictionaries should have been
            # initialized, or none. But one dictionary cannot have been
-           # initialized, while the other was not
+           # initialized, while the others were not
             err_msg = "[OpenTravelData::extractPORSubsetFromOPTD] " \
                "Consistency error with the two POR dictionaries"
             assert not self.unlc_por_dict, err_msg
@@ -525,9 +525,9 @@ class OpenTravelData():
                    self.geo_por_dict[optd_geo_id] = optd_por_rec
                    
                 # IATA POR dictionary
-                # Only the POR with a IATA code are interesting
-                # from this stage onwards
-                if optd_por_code == '':
+                # Only the POR with a currently valid IATA code are
+                # interesting from this stage onwards
+                if optd_por_code == '' or optd_env_id != '':
                     continue
                  
                 # There may be several POR (points of reference)
