@@ -9,7 +9,7 @@ to be used by Python software needing to access OPTD data.
 # References
 * PyPi artifacts: https://pypi.org/project/opentraveldata/
 * OpenTravelData (OPTD):
-  + Source code on GitHub: https://opentraveldata/opentraveldata
+  + Source code on GitHub: https://github.com/opentraveldata/opentraveldata
   + Docker Cloud repository: https://cloud.docker.com/u/opentraveldata/repository/docker/opentraveldata/quality-assurance
   + This Python-wrapper Git repository: https://github.com/opentraveldata/python-opentraveldata
 * OPTD data archive:
@@ -34,7 +34,7 @@ to be used by Python software needing to access OPTD data.
   and `pipenv`:
   https://github.com/machine-learning-helpers/induction-python/tree/master/installation/virtual-env
 
-* Install Pyenv, Python 3.9.1, `pip` and `pipenv`:
+* Install Pyenv, Python 3.9.5, `pip` and `pipenv`:
 ```bash
 user@laptop$ if [ ! -d ${HOME}/.pyenv ]; then git clone https://github.com/pyenv/pyenv.git ${HOME}/.pyenv; else pushd ${HOME}/.pyenv && git pull && popd; fi
 user@laptop$ cat >> ~/.bashrc << _EOF
@@ -46,7 +46,7 @@ eval "\$(pipenv --completion)"
  
 _EOF
 user@laptop$ . ~/.bashrc
-user@laptop$ pyenv install 3.9.1 && pyenv global 3.9.1 && pip install -U pip pipenv && pyenv global system
+user@laptop$ pyenv install 3.9.5 && pyenv global 3.9.5 && pip install -U pip pipenv && pyenv global system
 ```
 
 * Clone the Git repository and install the Python virtual environment
@@ -57,7 +57,7 @@ user@laptop$ mkdir -p ~/dev/geo && \
 user@laptop$ cd ~/dev/geo/python-opentraveldata
 user@laptop$ pipenv --rm && pipenv install && pipenv install --dev
 user@laptop$ python --version
-Python 3.9.1
+Python 3.9.5
 ```
 
 ## PyPi credentials for Travis deployment
@@ -146,7 +146,7 @@ https://pypi.org/project/opentraveldata/0.0.8/
 ```bash
 $ pipenv run pytest test_optd-csvwriter.py
 ======================= test session starts =============================
-platform darwin -- Python 3.9.1, pytest-5.3.5, py-1.8.1, pluggy-0.13.1
+platform darwin -- Python 3.9.5, pytest-5.3.5, py-1.8.1, pluggy-0.13.1
 rootdir: ~/dev/geo/python-opentraveldata
 collected 3 items                                                     
 
@@ -170,7 +170,7 @@ py39 installed: attrs==19.3.0,certifi==2019.11.28,chardet==3.0.4,idna==2.9,more-
 py39 run-test-pre: PYTHONHASHSEED='3773488260'
 py39 run-test: commands[0] | pytest
 ======================= test session starts =============================
-platform darwin -- Python 3.9.1, pytest-5.3.5, py-1.8.1, pluggy-0.13.1
+platform darwin -- Python 3.9.5, pytest-5.3.5, py-1.8.1, pluggy-0.13.1
 cachedir: .tox/py39/.pytest_cache
 rootdir: ~/dev/geo/python-opentraveldata
 collected 3 items                                                     
