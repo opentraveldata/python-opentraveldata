@@ -128,7 +128,7 @@ View at: https://test.pypi.org/project/opentraveldata/0.0.8/
 user@laptop$ PYPIURL="https://pypi.org"
 user@laptop$ pipenv run keyring set ${PYPIURL}/ __token__
 Password for '__token__' in '${PYPIURL}/':
-user@laptop$ pipenv run twine upload -u __token__ --non-interactive --repository-url ${PYPIURL}/legacy/ dist/*
+user@laptop$ pipenv run twine upload -u __token__ --non-interactive dist/*
 Uploading distributions to https://upload.pypi.org/legacy/
 Uploading opentraveldata-0.0.8-py3-none-any.whl
 100%|██████████████████████████████████████████████████████████████████████| 23.7k/23.7k [00:01<00:00, 15.2kB/s]
