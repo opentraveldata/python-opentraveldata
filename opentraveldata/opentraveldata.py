@@ -409,7 +409,7 @@ class OpenTravelData():
         self.validatefileSizes(iata_por_file_size, "main_POR")
         # Validate size of the downloaded OPTD UN/LOCODE POR file
         # Ensure the file_type value is either 'main_POR' or 'UN_LOCODE'
-        self.validatefileSizes(iata_por_file_size, "UN_LOCODE")
+        self.validatefileSizes(unlc_por_file_size, "UN_LOCODE")
         return
 
     def displayFilesHead (self, lines = 10):
