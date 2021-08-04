@@ -32,15 +32,21 @@ class Error (Exception):
 
 class OPTDLocalFileError (Error):
    """
-   Raised when there is an issue with the local OenTravelData (OPTD) file
+   Raised when there is an issue with the local OpenTravelData (OPTD) file
    """
    pass
 
 class OPTDDownloadFileError (Error):
    """
-   Raised when there is an issue wile downloading OenTravelData (OPTD) file
+   Raised when there is an issue wile downloading OpenTravelData (OPTD) file
    """
-   pass    
+   pass
+
+class OPTDDownloadedFileSizeError (Error):
+   """
+   Raised when there is an issue with the size of the downloaded OpenTravelData (OPTD) file
+   """
+   pass
 
 class OPTDPORDictConsistencyError (Error):
    """
@@ -50,7 +56,7 @@ class OPTDPORDictConsistencyError (Error):
 
 class OPTDIATACodeError (Error):
    """
-   Raised when there is the IATA code is not known from OenTravelData (OPTD)
+   Raised when there is the IATA code is not known from OpenTravelData (OPTD)
    """
    pass
 
@@ -266,6 +272,31 @@ class OpenTravelData():
                   f"{self.local_unlc_por_filepath}: {unlc_por_file_size}")
         return (iata_por_file_size, unlc_por_file_size)
 
+    def validatefileSizes (self, file_type, file_size):
+        """
+        Ensure the file_type value is in ['main_POR', 'UN_LOCODE]
+        """
+        # Validate size of the OPTD main POR file
+        if file_type == "main_POR":
+            if 4e7 <= file_size <= 5e7:
+                print (f"[Opentraveldata::validatefileSizes] {file_type} Size withing range between 40-50 MB")
+            else:
+                err_msg = f"[OpenTravelData::validatefileSizes] {file_type} Size not within range between 40-50 MB"
+                raise OPTDDownloadedFileSizeError(err_msg)
+        # Validate size of the OPTD UN/LOCODE POR file
+        elif file_type == "UN_LOCODE":
+            if 4e6 <= file_size <= 5e6:
+                print (f"[Opentraveldata::validatefileSizes] {file_type} Size withing range between 4-5 MB")
+            else:
+                err_msg = f"[OpenTravelData::validatefileSizes] {file_type} Size not within range between 4-5 MB"
+                raise OPTDDownloadedFileSizeError(err_msg)
+        # Edge cases where the file_type value is not in ['main_POR', 'UN_LOCODE']
+        else:
+            err_msg = f"[OpenTravelData::validatefileSizes] {file_type} not recognized." \
+                        "Only validation of main OPTD main POR files and UN/LOCODE POR file possible" \
+                        "Please ensure file_type value is either 'main_POR' or 'UN_LOCODE'"
+            raise OPTDDownloadedFileSizeError(err_msg)
+
     def deleteLocalFiles (self):
         do_files_exist = self.doLocalFilesExist()
         if do_files_exist:
@@ -372,8 +403,13 @@ class OpenTravelData():
                   "you can delete them, e.g. by calling the " \
                   "deleteLocalFiles() method and call again this method " \
                   "(downloadFilesIfNeeded())")
-           
-        #
+
+        # Validate size of the downloaded OPTD main POR file
+        # Ensure the file_type value is either 'main_POR' or 'UN_LOCODE'
+        self.validatefileSizes(iata_por_file_size, "main_POR")
+        # Validate size of the downloaded OPTD UN/LOCODE POR file
+        # Ensure the file_type value is either 'main_POR' or 'UN_LOCODE'
+        self.validatefileSizes(iata_por_file_size, "UN_LOCODE")
         return
 
     def displayFilesHead (self, lines = 10):
