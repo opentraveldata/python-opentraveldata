@@ -2,7 +2,7 @@
 # https://github.com/opentraveldata/python-opentraveldata/tree/master/opentraveldata
 #
 
-import getopt, os, sys, re, csv, datetime, shutil, urllib.request
+import getopt, os, sys, re, csv, datetime, shutil, urllib.request, time
 
 # OPTD maintains three lists of POR (points of reference)
 # - optd_por_public.csv is the light version,
@@ -406,10 +406,10 @@ class OpenTravelData():
 
         # Validate size of the downloaded OPTD main POR file
         # Ensure the file_type value is either 'main_POR' or 'UN_LOCODE'
-        self.validatefileSizes(iata_por_file_size, "main_POR")
+        self.validatefileSizes("main_POR", iata_por_file_size)
         # Validate size of the downloaded OPTD UN/LOCODE POR file
         # Ensure the file_type value is either 'main_POR' or 'UN_LOCODE'
-        self.validatefileSizes(unlc_por_file_size, "UN_LOCODE")
+        self.validatefileSizes("UN_LOCODE", unlc_por_file_size)
         return
 
     def displayFilesHead (self, lines = 10):
