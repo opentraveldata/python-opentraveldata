@@ -1,6 +1,6 @@
 [project]
 name = "opentraveldata"
-version = "0.0.8"
+version = "0.0.9.post1"
 description = "Simple Python wrapper for OpenTravelata (OPTD)"
 authors = [
 	"Denis Arnaud <denis.arnaud_fedora@m4x.org>"
