@@ -5,7 +5,7 @@
 #    pipenv lock --requirements
 #
 
--i https://pypi.org/simple
+-i https://pypi.org/simple/
 datetime==4.3
 pytz==2021.3
 setuptools==60.5.0; python_version >= '3.7'
