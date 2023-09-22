@@ -7,7 +7,7 @@ authors = [
 ]
 license = "MIT"
 readme = "README.md"
-python = "^3.9"
+python = "^3.11"
 homepage = "https://github.com/opentraveldata/python-opentraveldata"
 repository = "https://github.com/opentraveldata/python-opentraveldata"
 documentation = "https://github.com/opentraveldata/python-opentraveldata"

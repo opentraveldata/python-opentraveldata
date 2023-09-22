@@ -1,4 +1,6 @@
 # Distribution / packaging
+.python-version
+Pipfile.lock
 .Python
 build/
 develop-eggs/
